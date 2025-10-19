@@ -1,7 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 const Snackbar = ({ message, type = 'info', isVisible, onClose, duration = 4000 }) => {
   const [isHiding, setIsHiding] = useState(false);
+
+  const handleClose = useCallback(() => {
+    setIsHiding(true);
+    setTimeout(() => {
+      setIsHiding(false);
+      onClose();
+    }, 300);
+  }, [onClose]);
 
   useEffect(() => {
     if (isVisible && duration > 0) {
@@ -12,14 +20,6 @@ const Snackbar = ({ message, type = 'info', isVisible, onClose, duration = 4000 
       return () => clearTimeout(timer);
     }
   }, [isVisible, duration, handleClose]);
-
-  const handleClose = () => {
-    setIsHiding(true);
-    setTimeout(() => {
-      setIsHiding(false);
-      onClose();
-    }, 300);
-  };
 
   const getIcon = () => {
     const iconStyle = { fontSize: '20px' };
