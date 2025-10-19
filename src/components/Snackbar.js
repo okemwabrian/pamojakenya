@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Snackbar = ({ message, type = 'info', isVisible, onClose, duration = 4000 }) => {
   const [isHiding, setIsHiding] = useState(false);
@@ -11,7 +11,7 @@ const Snackbar = ({ message, type = 'info', isVisible, onClose, duration = 4000 
 
       return () => clearTimeout(timer);
     }
-  }, [isVisible, duration]);
+  }, [isVisible, duration, handleClose]);
 
   const handleClose = () => {
     setIsHiding(true);

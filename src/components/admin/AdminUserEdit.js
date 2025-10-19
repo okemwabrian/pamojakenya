@@ -9,7 +9,7 @@ const AdminUserEdit = ({ userId, onClose, onUpdate }) => {
 
   useEffect(() => {
     fetchUser();
-  }, [userId]);
+  }, [userId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchUser = async () => {
     try {

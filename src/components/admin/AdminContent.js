@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { announcementsAPI, meetingsAPI, adminAPI } from '../../services/api';
+import { announcementsAPI, adminAPI } from '../../services/api';
 
 const AdminContent = () => {
   const [activeTab, setActiveTab] = useState('announcements');
@@ -17,7 +17,7 @@ const AdminContent = () => {
 
   useEffect(() => {
     fetchData();
-  }, [activeTab]);
+  }, [activeTab]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchData = async () => {
     setLoading(true);
@@ -109,9 +109,9 @@ const AdminContent = () => {
   const viewRegistrations = async (meetingId) => {
     setLoading(true);
     try {
-      const response = await adminAPI.getMeeting(meetingId);
+      await adminAPI.getMeeting(meetingId);
       // Get registrations for this meeting
-      const regResponse = await adminAPI.getMeetings(); // This would need a specific endpoint
+      await adminAPI.getMeetings(); // This would need a specific endpoint
       // For now, we'll show a simple modal
       setRegistrations([]);
       setShowRegistrations(true);
