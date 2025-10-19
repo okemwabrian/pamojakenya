@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Connection Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .success { color: green; }
+        .error { color: red; }
+        .test { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+    <h1>API Connection Test</h1>
+    <div id="results"></div>
+
+    <script>
+        const API_BASE = 'http://127.0.0.1:8000/api';
+        const results = document.getElementById('results');
+
+        async function testEndpoint(name, url, method = 'GET', data = null, headers = {}) {
+            const div = document.createElement('div');
+            div.className = 'test';
+            
+            try {
+                const options = { method, headers };
+                if (data) {
+                    options.body = JSON.stringify(data);
+                    headers['Content-Type'] = 'application/json';
+                }
+                
+                const response = await fetch(API_BASE + url, options);
+                const result = await response.json();
+                
+                if (response.ok) {
+                    div.innerHTML = `<span class="success">✅ ${name}: SUCCESS (${response.status})</span>`;
+                    if (Array.isArray(result)) {
+                        div.innerHTML += ` - ${result.length} items`;
+                    }
+                } else {
+                    div.innerHTML = `<span class="error">❌ ${name}: FAILED (${response.status})</span><br>Error: ${JSON.stringify(result)}`;
+                }
+            } catch (error) {
+                div.innerHTML = `<span class="error">❌ ${name}: ERROR</span><br>${error.message}`;
+            }
+            
+            results.appendChild(div);
+        }
+
+        async function runTests() {
+            results.innerHTML = '<h2>Running Tests...</h2>';
+            
+            // Test public endpoints
+            await testEndpoint('Announcements', '/announcements/');
+            await testEndpoint('Meetings', '/meetings/');
+            
+            // Test login
+            const loginDiv = document.createElement('div');
+            loginDiv.className = 'test';
+            
+            try {
+                const loginResponse = await fetch(API_BASE + '/auth/login/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: 'testuser', password: 'test123' })
+                });
+                
+                const loginResult = await loginResponse.json();
+                
+                if (loginResponse.ok && loginResult.token) {
+                    loginDiv.innerHTML = '<span class="success">✅ Login: SUCCESS</span>';
+                    const token = loginResult.token;
+                    const authHeaders = { 'Authorization': `Bearer ${token}` };
+                    
+                    // Test authenticated endpoints
+                    await testEndpoint('Claims', '/claims/', 'GET', null, authHeaders);
+                    await testEndpoint('Contact', '/contact/', 'GET', null, authHeaders);
+                    await testEndpoint('Applications', '/applications/', 'GET', null, authHeaders);
+                    
+                    // Test claim creation
+                    await testEndpoint('Create Claim', '/claims/', 'POST', {
+                        claim_type: 'medical',
+                        member_name: 'Test User',
+                        relationship: 'self',
+                        amount_requested: '50.00',
+                        incident_date: '2025-10-15',
+                        description: 'Test claim from frontend'
+                    }, authHeaders);
+                    
+                } else {
+                    loginDiv.innerHTML = `<span class="error">❌ Login: FAILED</span><br>Error: ${JSON.stringify(loginResult)}`;
+                }
+            } catch (error) {
+                loginDiv.innerHTML = `<span class="error">❌ Login: ERROR</span><br>${error.message}`;
+            }
+            
+            results.appendChild(loginDiv);
+        }
+
+        // Run tests when page loads
+        runTests();
+    </script>
+</body>
+</html>
