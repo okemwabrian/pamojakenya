@@ -3,6 +3,7 @@ import { paymentsAPI } from '../services/api';
 import Snackbar from './Snackbar';
 import { useSnackbar } from '../hooks/useSnackbar';
 import PaymentInstructions from './PaymentInstructions';
+import { getPaymentOptions } from '../config/paymentMethods';
 
 const ActivationFeePayment = () => {
   const { snackbar, showSuccess, showError, hideSnackbar } = useSnackbar();
@@ -76,10 +77,11 @@ const ActivationFeePayment = () => {
                     required
                   >
                     <option value="">Select payment method...</option>
-                    <option value="paypal">PayPal</option>
-                    <option value="mpesa">M-Pesa</option>
-                    <option value="bank">Bank Transfer</option>
-                    <option value="other">Other</option>
+                    {getPaymentOptions().map(option => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
                   </select>
                 </div>
 

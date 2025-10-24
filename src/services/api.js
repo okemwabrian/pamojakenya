@@ -58,12 +58,12 @@ export const applicationAPI = {
     return api.post('/applications/', data);
   },
   submitSingle: (formData) => {
-    return api.post('/applications/single/', formData, {
+    return api.post('/applications/single/submit/', formData, {
       headers: { 'Content-Type': 'multipart/form-data' }
     });
   },
   submitDouble: (formData) => {
-    return api.post('/applications/double/', formData, {
+    return api.post('/applications/double/submit/', formData, {
       headers: { 'Content-Type': 'multipart/form-data' }
     });
   },
@@ -81,17 +81,19 @@ export const paymentsAPI = {
   createPayment: (data) => api.post('/payments/', data),
   getPayment: (id) => api.get(`/payments/${id}/`),
   updatePayment: (id, data) => api.put(`/payments/${id}/`, data),
-  submitActivationFee: (data) => api.post('/payments/activation_fee/', data, {
+  submitActivationFee: (data) => api.post('/payments/activation/submit/', data, {
     headers: { 'Content-Type': 'multipart/form-data' }
   }),
+  getActivationPayments: () => api.get('/activation-payments/'),
 };
 
 // Shares API calls
 export const sharesAPI = {
   getShares: () => api.get('/shares/'),
   createShare: (data) => api.post('/shares/', data),
-  buyShares: (data) => api.post('/shares/', data),
+  buyShares: (data) => api.post('/shares/buy/', data),
   getShare: (id) => api.get(`/shares/${id}/`),
+  getSharePurchases: () => api.get('/shares/'),
 };
 
 // Claims API calls

@@ -14,6 +14,7 @@ const SingleApplication = () => {
     zip: '',
     spouse: '',
     spousePhone: '',
+    spouseCellPhone: '',
     authorizedRep: '',
     child1: '',
     child2: '',
@@ -68,7 +69,7 @@ const SingleApplication = () => {
       setFormData({
         firstName: '', middleName: '', lastName: '', email: '', phoneMain: '',
         address1: '', city: '', stateProvince: '', zip: '',
-        spouse: '', spousePhone: '', authorizedRep: '',
+        spouse: '', spousePhone: '', spouseCellPhone: '', authorizedRep: '',
         child1: '', child2: '', child3: '', child4: '', child5: '',
         parent1: '', parent2: '', spouseParent1: '', spouseParent2: '',
         sibling1: '', sibling2: '', declarationAccepted: false
@@ -155,6 +156,11 @@ const SingleApplication = () => {
         <div className="col-md-6">
           <label className="form-label">Contact Phone (Spouse)</label>
           <input type="tel" name="spousePhone" className="form-control" value={formData.spousePhone} onChange={handleChange} />
+        </div>
+
+        <div className="col-md-6">
+          <label className="form-label">Cell Phone (Spouse)</label>
+          <input type="tel" name="spouseCellPhone" className="form-control" value={formData.spouseCellPhone} onChange={handleChange} />
         </div>
 
         <div className="col-12">

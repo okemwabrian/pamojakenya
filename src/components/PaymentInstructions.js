@@ -1,28 +1,8 @@
 import React from 'react';
+import { getPaymentInstructions } from '../config/paymentMethods';
 
 const PaymentInstructions = ({ paymentMethod, amount }) => {
-  const paymentDetails = {
-    paypal: {
-      label: 'PayPal',
-      details: 'pamojakeny@gmail.com',
-      icon: 'bi-paypal',
-      color: 'primary'
-    },
-    mpesa: {
-      label: 'M-Pesa',
-      details: '+254700000000',
-      icon: 'bi-phone',
-      color: 'success'
-    },
-    bank: {
-      label: 'Bank Transfer',
-      details: 'Account: 1234567890, ABC Bank',
-      icon: 'bi-bank',
-      color: 'info'
-    }
-  };
-
-  const details = paymentDetails[paymentMethod];
+  const details = getPaymentInstructions(paymentMethod, amount);
   if (!details) return null;
 
   return (

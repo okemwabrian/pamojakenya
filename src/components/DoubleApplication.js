@@ -8,7 +8,10 @@ const DoubleApplication = () => {
     spouse_name: '', spouse_phone: '', authorized_rep: '',
     child_1: '', child_2: '', child_3: '', child_4: '', child_5: '',
     parent_1: '', parent_2: '', spouse_parent_1: '', spouse_parent_2: '',
-    sibling_1: '', sibling_2: '', sibling_3: '', constitution_agreed: false
+    step_parent_1: '', step_parent_2: '',
+    sibling_1: '', sibling_2: '', sibling_3: '',
+    step_sibling_1: '', step_sibling_2: '', step_sibling_3: '',
+    constitution_agreed: false
   });
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -55,7 +58,10 @@ const DoubleApplication = () => {
         spouse_name: '', spouse_phone: '', authorized_rep: '',
         child_1: '', child_2: '', child_3: '', child_4: '', child_5: '',
         parent_1: '', parent_2: '', spouse_parent_1: '', spouse_parent_2: '',
-        sibling_1: '', sibling_2: '', sibling_3: '', constitution_agreed: false
+        step_parent_1: '', step_parent_2: '',
+        sibling_1: '', sibling_2: '', sibling_3: '',
+        step_sibling_1: '', step_sibling_2: '', step_sibling_3: '',
+        constitution_agreed: false
       });
       setFile(null);
     } catch (err) {
@@ -170,6 +176,17 @@ const DoubleApplication = () => {
           <input type="text" className="form-control" name="spouse_parent_2" value={formData.spouse_parent_2} onChange={handleChange} />
         </div>
         
+        {/* Step Parents */}
+        <div className="col-12 mt-3"><h6>Step Parents</h6></div>
+        <div className="col-md-6">
+          <label className="form-label">Step Parent 1</label>
+          <input type="text" className="form-control" name="step_parent_1" value={formData.step_parent_1} onChange={handleChange} />
+        </div>
+        <div className="col-md-6">
+          <label className="form-label">Step Parent 2</label>
+          <input type="text" className="form-control" name="step_parent_2" value={formData.step_parent_2} onChange={handleChange} />
+        </div>
+        
         {/* Siblings */}
         <div className="col-12"><h5>Siblings</h5></div>
         <div className="col-md-4">
@@ -183,6 +200,21 @@ const DoubleApplication = () => {
         <div className="col-md-4">
           <label className="form-label">Sibling 3</label>
           <input type="text" className="form-control" name="sibling_3" value={formData.sibling_3} onChange={handleChange} />
+        </div>
+        
+        {/* Step Siblings */}
+        <div className="col-12 mt-3"><h6>Step Siblings</h6></div>
+        <div className="col-md-4">
+          <label className="form-label">Step Sibling 1</label>
+          <input type="text" className="form-control" name="step_sibling_1" value={formData.step_sibling_1} onChange={handleChange} />
+        </div>
+        <div className="col-md-4">
+          <label className="form-label">Step Sibling 2</label>
+          <input type="text" className="form-control" name="step_sibling_2" value={formData.step_sibling_2} onChange={handleChange} />
+        </div>
+        <div className="col-md-4">
+          <label className="form-label">Step Sibling 3</label>
+          <input type="text" className="form-control" name="step_sibling_3" value={formData.step_sibling_3} onChange={handleChange} />
         </div>
 
         {/* ID Document */}

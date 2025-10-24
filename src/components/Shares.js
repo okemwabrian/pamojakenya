@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { sharesAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import { getPaymentOptions } from '../config/paymentMethods';
 
 const Shares = () => {
   const { user, isAuthenticated } = useAuth();
@@ -162,9 +163,11 @@ const Shares = () => {
             required
           >
             <option value="" disabled>Select payment method</option>
-            <option value="paypal">PayPal</option>
-            <option value="bank">Bank Transfer</option>
-            <option value="card">Credit/Debit Card</option>
+            {getPaymentOptions().map(option => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
         </div>
 
