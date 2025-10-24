@@ -36,6 +36,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import ProfileCompletion from './components/ProfileCompletion';
 import ChangePassword from './components/ChangePassword';
 import ActivationFeePayment from './components/ActivationFeePayment';
+import ConnectionTest from './components/ConnectionTest';
 
 import ActivationWarning from './components/ActivationWarning';
 import BackgroundEffects from './components/BackgroundEffects';
@@ -79,6 +80,7 @@ function App() {
             <Route path="/documents" element={<ProtectedRoute><Documents /></ProtectedRoute>} />
             <Route path="/change-password" element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
             <Route path="/activation-fee" element={<ProtectedRoute><ActivationFeePayment /></ProtectedRoute>} />
+            <Route path="/test-connection" element={<ConnectionTest />} />
           </Routes>
           <Snackbar 
             message={snackbar.message}
