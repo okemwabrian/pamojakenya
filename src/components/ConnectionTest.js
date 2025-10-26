@@ -5,7 +5,7 @@ const ConnectionTest = () => {
   const [results, setResults] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const API_BASE = process.env.REACT_APP_API_URL || 'https://okemwabrianny.pythonanywhere.com/api';
+  const API_BASE = process.env.REACT_APP_API_URL || 'https://Okemwabrianny.pythonanywhere.com/api';
 
   const testConnection = async (endpoint, method = 'GET', data = null) => {
     try {

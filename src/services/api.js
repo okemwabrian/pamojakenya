@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Ensure we always use PythonAnywhere backend
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://okemwabrianny.pythonanywhere.com/api';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://Okemwabrianny.pythonanywhere.com/api';
 
 // Create axios instance with base configuration
 const api = axios.create({

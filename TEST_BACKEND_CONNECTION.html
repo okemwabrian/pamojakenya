@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Backend Connection</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+        button { padding: 10px 20px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Backend Connection Test</h1>
+    
+    <div>
+        <label>Backend URL:</label>
+        <input type="text" id="backendUrl" value="https://Okemwabrianny.pythonanywhere.com/api" style="width: 400px;">
+        <button onclick="testConnection()">Test Connection</button>
+    </div>
+    
+    <div id="results"></div>
+
+    <script>
+        async function testConnection() {
+            const baseUrl = document.getElementById('backendUrl').value;
+            const results = document.getElementById('results');
+            results.innerHTML = '<p>Testing...</p>';
+            
+            const tests = [
+                { name: 'Basic API', url: baseUrl + '/' },
+                { name: 'Activation Fee Endpoint', url: baseUrl + '/payments/activation/submit/', method: 'POST' },
+                { name: 'Single App Endpoint', url: baseUrl + '/applications/single/submit/', method: 'POST' },
+                { name: 'Double App Endpoint', url: baseUrl + '/applications/double/submit/', method: 'POST' },
+                { name: 'Shares Endpoint', url: baseUrl + '/shares/buy/', method: 'POST' }
+            ];
+            
+            let html = '';
+            
+            for (const test of tests) {
+                try {
+                    const response = await fetch(test.url, {
+                        method: test.method || 'GET',
+                        mode: 'cors',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: test.method === 'POST' ? JSON.stringify({test: true}) : undefined
+                    });
+                    
+                    const status = response.status;
+                    const statusText = response.statusText;
+                    
+                    if (status === 200 || status === 201) {
+                        html += `<div class="test success">✅ ${test.name}: ${status} ${statusText}</div>`;
+                    } else if (status === 404) {
+                        html += `<div class="test error">❌ ${test.name}: ${status} NOT FOUND - Endpoint missing in Django</div>`;
+                    } else if (status === 405) {
+                        html += `<div class="test error">❌ ${test.name}: ${status} METHOD NOT ALLOWED - View exists but wrong HTTP method</div>`;
+                    } else {
+                        html += `<div class="test error">❌ ${test.name}: ${status} ${statusText}</div>`;
+                    }
+                } catch (error) {
+                    if (error.message.includes('CORS')) {
+                        html += `<div class="test error">❌ ${test.name}: CORS ERROR - Django CORS not configured</div>`;
+                    } else {
+                        html += `<div class="test error">❌ ${test.name}: ${error.message}</div>`;
+                    }
+                }
+            }
+            
+            results.innerHTML = html;
+        }
+        
+        // Auto-test on page load
+        window.onload = () => testConnection();
+    </script>
+</body>
+</html>
