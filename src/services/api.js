@@ -1,11 +1,18 @@
 import axios from 'axios';
 
+// Ensure we always use PythonAnywhere backend
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://okemwabrianny.pythonanywhere.com/api';
+
 // Create axios instance with base configuration
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8000/api',
+  baseURL: API_BASE_URL,
   timeout: 30000,
   // Don't set Content-Type header - let axios handle it for file uploads
 });
+
+// Debug: Log the API base URL
+console.log('API Base URL:', API_BASE_URL);
+console.log('Environment:', process.env.NODE_ENV);
 
 // Request interceptor to add auth token
 api.interceptors.request.use(
