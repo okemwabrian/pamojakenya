@@ -24,8 +24,14 @@ const Claims = () => {
 
   const loadMyClaims = async () => {
     try {
+      console.log('Loading claims...');
       const response = await claimsAPI.getClaims();
-      setMyClaims(Array.isArray(response.data) ? response.data : []);
+      console.log('Claims API response:', response.data);
+      
+      // Backend now returns {claims: [...]} format
+      const claims = response.data.claims || [];
+      console.log('Claims found:', claims.length);
+      setMyClaims(claims);
     } catch (error) {
       console.error('Error loading claims:', error);
       setMyClaims([]);

@@ -18,7 +18,12 @@ const MyApplications = () => {
   const loadApplications = async () => {
     try {
       const response = await applicationAPI.getApplications();
-      setApplications(Array.isArray(response.data) ? response.data : []);
+      console.log('Applications API response:', response.data);
+      
+      // Backend now returns {applications: [...]} format
+      const applications = response.data.applications || [];
+      console.log('Applications found:', applications.length);
+      setApplications(applications);
     } catch (error) {
       console.error('Error loading applications:', error);
       showError('Failed to load applications');
@@ -172,16 +177,30 @@ const MyApplications = () => {
                     )}
                   </div>
                   
-                  {selectedApp.children_info && selectedApp.children_info.length > 0 && (
+                  {selectedApp.children_info && (
                     <div className="col-12">
                       <h6>Children Information</h6>
-                      {JSON.parse(selectedApp.children_info || '[]').map((child, index) => (
-                        <div key={index} className="border p-2 mb-2 rounded">
-                          <p><strong>Name:</strong> {child.name}</p>
-                          <p><strong>DOB:</strong> {child.date_of_birth}</p>
-                          <p><strong>Relationship:</strong> {child.relationship}</p>
-                        </div>
-                      ))}
+                      {(() => {
+                        try {
+                          const children = typeof selectedApp.children_info === 'string' 
+                            ? JSON.parse(selectedApp.children_info) 
+                            : selectedApp.children_info;
+                          
+                          if (Array.isArray(children) && children.length > 0) {
+                            return children.map((child, index) => (
+                              <div key={index} className="border p-2 mb-2 rounded">
+                                <p><strong>Name:</strong> {child.name}</p>
+                                <p><strong>DOB:</strong> {child.date_of_birth}</p>
+                                <p><strong>Relationship:</strong> {child.relationship}</p>
+                              </div>
+                            ));
+                          }
+                          return <p className="text-muted">No children information</p>;
+                        } catch (error) {
+                          console.error('Error parsing children_info:', error);
+                          return <p className="text-muted">Error loading children information</p>;
+                        }
+                      })()} 
                     </div>
                   )}
                   

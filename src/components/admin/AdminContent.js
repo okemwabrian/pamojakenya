@@ -24,10 +24,14 @@ const AdminContent = () => {
     try {
       if (activeTab === 'announcements') {
         const response = await announcementsAPI.getAnnouncements();
-        setAnnouncements(response.data?.results || response.data || []);
+        // Handle new API response format: {announcements: [...]}
+        const data = response.data?.announcements || response.data?.results || response.data || [];
+        setAnnouncements(Array.isArray(data) ? data : []);
       } else if (activeTab === 'meetings') {
         const response = await adminAPI.getMeetings();
-        setMeetings(response.data?.results || response.data || []);
+        // Handle new API response format: {meetings: [...]}
+        const data = response.data?.meetings || response.data?.results || response.data || [];
+        setMeetings(Array.isArray(data) ? data : []);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -37,6 +41,8 @@ const AdminContent = () => {
           {id: 1, title: 'Welcome Message', content: 'Welcome to Pamoja Kenya MN', priority: 'high', created_at: '2024-01-15T10:00:00Z'},
           {id: 2, title: 'Meeting Reminder', content: 'Monthly meeting this Saturday', priority: 'medium', created_at: '2024-01-14T09:00:00Z'}
         ]);
+      } else {
+        setMeetings([]);
       }
     } finally {
       setLoading(false);

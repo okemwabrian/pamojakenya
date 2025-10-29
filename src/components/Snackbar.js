@@ -3,6 +3,14 @@ import React, { useEffect, useState } from 'react';
 const Snackbar = ({ message, type = 'info', isVisible, onClose, duration = 4000 }) => {
   const [isHiding, setIsHiding] = useState(false);
 
+  const handleClose = () => {
+    setIsHiding(true);
+    setTimeout(() => {
+      setIsHiding(false);
+      onClose();
+    }, 300);
+  };
+
   useEffect(() => {
     if (isVisible && duration > 0) {
       const timer = setTimeout(() => {
@@ -11,15 +19,7 @@ const Snackbar = ({ message, type = 'info', isVisible, onClose, duration = 4000 
 
       return () => clearTimeout(timer);
     }
-  }, [isVisible, duration]);
-
-  const handleClose = () => {
-    setIsHiding(true);
-    setTimeout(() => {
-      setIsHiding(false);
-      onClose();
-    }, 300);
-  };
+  }, [isVisible, duration, handleClose]);
 
   const getIcon = () => {
     const iconStyle = { fontSize: '20px' };

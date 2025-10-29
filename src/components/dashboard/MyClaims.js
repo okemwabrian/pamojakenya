@@ -13,7 +13,8 @@ const MyClaims = () => {
   const fetchClaims = async () => {
     try {
       const response = await claimsAPI.getClaims();
-      const claims = Array.isArray(response.data) ? response.data : [];
+      // Backend now returns {claims: [...]} format
+      const claims = response.data.claims || [];
       setClaims(claims);
     } catch (error) {
       console.error('Error fetching claims:', error);

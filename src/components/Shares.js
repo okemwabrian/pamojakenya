@@ -29,9 +29,15 @@ const Shares = () => {
   const fetchShareHistory = async () => {
     try {
       const response = await sharesAPI.getShares();
-      setShareHistory(response.data?.results || response.data || []);
+      console.log('Shares API response:', response.data);
+      
+      // Backend now returns {shares: [...]} format
+      const shares = response.data.shares || response.data?.results || response.data || [];
+      console.log('Shares found:', shares.length);
+      setShareHistory(Array.isArray(shares) ? shares : []);
     } catch (error) {
       console.error('Error fetching share history:', error);
+      setShareHistory([]);
     } finally {
       setLoading(false);
     }
@@ -87,7 +93,7 @@ const Shares = () => {
         <div className="col-md-4">
           <div className="card bg-info text-white">
             <div className="card-body text-center">
-              <h3>{shareHistory.length}</h3>
+              <h3>{Array.isArray(shareHistory) ? shareHistory.length : 0}</h3>
               <p className="mb-0">Transactions</p>
             </div>
           </div>

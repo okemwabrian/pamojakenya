@@ -13,7 +13,8 @@ const MyApplications = () => {
   const fetchApplications = async () => {
     try {
       const response = await applicationAPI.getApplications();
-      const applications = Array.isArray(response.data) ? response.data : [];
+      // Backend now returns {applications: [...]} format
+      const applications = response.data.applications || [];
       setApplications(applications);
     } catch (error) {
       console.error('Error fetching applications:', error);

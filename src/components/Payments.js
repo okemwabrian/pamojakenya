@@ -31,10 +31,20 @@ const Payments = () => {
 
   const loadMyPayments = async () => {
     try {
+      console.log('Loading payments...');
       const response = await paymentsAPI.getPayments();
-      setMyPayments(Array.isArray(response.data) ? response.data : []);
+      console.log('Full API response:', response);
+      console.log('Response data:', response.data);
+      
+      // Backend now returns {payments: [...]} format
+      const payments = response.data.payments || [];
+      
+      console.log('Payments found:', payments.length);
+      setMyPayments(payments);
+      
     } catch (error) {
       console.error('Error loading payments:', error);
+      console.error('Error response:', error.response?.data);
       setMyPayments([]);
     }
   };

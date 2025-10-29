@@ -29,11 +29,11 @@ const UserDashboard = () => {
       ]);
 
       setStats({
-        payments: paymentsRes.data || [],
-        claims: claimsRes.data || [],
-        shares: sharesRes.data || [],
-        documents: documentsRes.data || [],
-        applications: applicationsRes.data || []
+        payments: paymentsRes.data.payments || paymentsRes.data || [],
+        claims: claimsRes.data.claims || claimsRes.data || [],
+        shares: sharesRes.data.shares || sharesRes.data || [],
+        documents: documentsRes.data.documents || documentsRes.data || [],
+        applications: applicationsRes.data.applications || applicationsRes.data || []
       });
     } catch (error) {
       console.error('Error loading dashboard data:', error);
@@ -164,14 +164,14 @@ const UserDashboard = () => {
           <div className="card">
             <div className="card-header d-flex justify-content-between align-items-center">
               <h5 className="mb-0">📋 My Applications</h5>
-              <Link to="/membership-application" className="btn btn-sm btn-primary">View All</Link>
+              <Link to="/my-applications" className="btn btn-sm btn-primary">View All</Link>
             </div>
             <div className="card-body">
               {stats.applications.length === 0 ? (
                 <div className="text-center py-3">
                   <p className="text-muted">No applications yet</p>
-                  <Link to="/membership-application" className="btn btn-outline-primary btn-sm">
-                    Apply Now
+                  <Link to="/my-applications" className="btn btn-outline-primary btn-sm">
+                    View Applications
                   </Link>
                 </div>
               ) : (
